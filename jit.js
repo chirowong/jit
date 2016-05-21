@@ -53,12 +53,12 @@ function Issue(projectKey, key, summary) {
 function listIssue(issueArr) {
   debugger;
   var table = new Table({
-    head: ['project', 'issueKey', 'summary']
+    head: ['num', 'project', 'issueKey', 'summary']
   });
 
   for (var i = 0, size = issueArr.length; i < size; i++) {
     var issue = issueArr[i];
-    table.push([issue.projectKey, issue.key, issue.summary]);
+    table.push([i + 1, issue.projectKey, issue.key, issue.summary]);
   }
 
   console.log(table.toString());
