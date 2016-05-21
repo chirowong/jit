@@ -1,13 +1,14 @@
 var config = require('../config/config.js');
 
 // 查看配置子命令
-function config(yargs) {
-  if (yargs.argv.list) {
+function configFun(yargs) {
+  var argv = yargs.argv;
+  if (argv.list) {
     config.list();
     return;
   }
 
-  var paramArr = yargs.argv._;
+  var paramArr = argv._;
   if (paramArr && paramArr.lenth >= 1) {
     var configItem = paramArr[1];
     var kvArr = configItem.split('=');
@@ -20,4 +21,4 @@ function config(yargs) {
   }
 }
 
-module.exports.config = config;
+module.exports.config = configFun;
