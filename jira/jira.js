@@ -21,7 +21,7 @@ function queryJiraIssue(callback) {
 // 解析issue list响应
 function parseIssueResponse(response) {
   var resBody = response.body;
-  //console.log(JSON.stringify(resBody, null, 4));
+  console.log(JSON.stringify(resBody, null, 4));
 
   var total = resBody.total;
   if (total == 0) {

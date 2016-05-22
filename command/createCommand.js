@@ -1,8 +1,6 @@
-var jira = require('../jira/jira.js');
-var Table = require('cli-table2');
 var unirest = require('unirest');
 
-// 显示所有issue
+// 创建issue
 function create(yargs) {
   var argv = yargs.argv;
   var projectKey = argv.p; // 项目key
@@ -18,7 +16,8 @@ function create(yargs) {
   }
 
   var description = argv.d; // issue描述
-  var issueType = argv.t; // issue类型
+  var issueType = argv.t || 'Task'; // issue类型
+  var assignee = argv.a; // 指派给谁
 
   var form = {};
   form.project = {
@@ -27,24 +26,29 @@ function create(yargs) {
 
   form.summary = summary;
   form.description = description;
-  form.issueType = {
+  form.issuetype = {
     name: issueType
   };
 
+  form.assignee = {
+    name: 'caoliding'
+  }
+
+  var param = {
+    fields: form
+  }
+
   unirest.post('http://jira.8win.com/rest/api/2/issue')
-    .headers({
-      "Content-Type": "application/json"
-    })
-    .send(JSON.stringify(form))
+    .type('json')
+    .send(param)
     .auth({
       user: 'caoliding',
       pass: 'caoliding'
     })
     .end(showCreateResult);
-
-  console.log(JSON.stringify(argv, null, 4));
 }
 
+// 处理创建issue响应
 function showCreateResult(response) {
   if (response.body && response.body.key) {
     console.log('创建成功,issue:', response.body.key);
