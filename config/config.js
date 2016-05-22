@@ -1,14 +1,15 @@
 var fs = require('fs');
 var path = require('path');
+var _ = require('lodash');
 
-var config_file_path = path.resolve(process.env.HOME, '.jitconfig');
+var config_file_path = path.join(process.env.HOME, '.jitconfig');
 
 // 读取一条配置
 function readConfigItem(itemName, lineArr) {
   if (!lineArr) {
     var content = readConfigFile();
     if (content) {
-      lineArr = content.split('/\r?\n/');
+      lineArr = content.split(/\r?\n/);
     }
   }
 
@@ -24,11 +25,12 @@ function readConfigItem(itemName, lineArr) {
 }
 
 // 显示配置
-function listAllConfig() {
-  console.log('fun listAllConfig');
+function listConfigItem() {
+  console.log('do listConfigItem');
   var configText = readConfigFile();
-  if (configText) {
-    configText.split('/\r?\n/').forEach(function (line) {
+  console.log('configText:', configText);
+  if (configText && false) {
+    configText.split(/\r?\n/).forEach(function (line) {
       console.log(line);
     })
   }
@@ -36,27 +38,21 @@ function listAllConfig() {
 
 // 读取配置文件
 function readConfigFile() {
-  console.log('path:' + config_file_path);
-
-  if (fs.exists(config_file_path)) {
-    var text = fs.readFileSync(config_file_path, 'utf8');
-    console.log(text);
-    return text;
-  }
-  else {
-    console.log('配置文件不存在');
+  if (fs.existsSync(config_file_path)) {
+    return fs.readFileSync(config_file_path, 'utf8');
   }
 }
 
 // 设置一条配置
 function writeItem(k, v) {
   var configText = k + '=' + v;
-  if (!fs.exists(config_file_path)) {
+  if (!fs.existsSync(config_file_path)) {
     fs.writeFileSync(config_file_path, configText);
   }
   else {
     var content = readConfigFile();
-    var arr = content.split('/\r?\n/');
+    var arr = _.trim(content).split(/\r?\n/);
+
     var find = false;
     for (var i = 0, size = arr.length; i < size; i++) {
       var item = arr[i];
@@ -82,4 +78,4 @@ function writeItem(k, v) {
 
 module.exports.get = readConfigItem;
 module.exports.set = writeItem;
-module.exports.list = listAllConfig;
+module.exports.list = listConfigItem;
