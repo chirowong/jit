@@ -1,19 +1,15 @@
 var unirest = require('unirest');
+var util = require('../util/util.js');
+var config = require('../config/config.js');
 
 // 创建issue
 function create(yargs) {
   var argv = yargs.argv;
   var projectKey = argv.p; // 项目key
-  if (!projectKey) {
-    console.log('必须指定项目名');
-    return;
-  }
+  util.assertTrue(projectKey, '必须指定项目名');
 
   var summary = argv.s; // issue标题
-  if (!summary) {
-    console.log('必须指定标题');
-    return;
-  }
+  util.assertTrue(summary, '必须指定标题');
 
   var description = argv.d; // issue描述
   var issueType = argv.t || 'Task'; // issue类型
@@ -38,12 +34,19 @@ function create(yargs) {
     fields: form
   }
 
-  unirest.post('http://jira.8win.com/rest/api/2/issue')
+  var user = config.get('user');
+  var pass = config.get('pass') || user;
+  var jiraHost = config.get('jiraHost') || 'http://jira.8win.com';
+  util.assertTrue(user, '需要配置jira用户名');
+  util.assertTrue(pass, '需要配置密码');
+  var issueUrl = jiraHost + '/rest/api/2/issue';
+
+  unirest.post(issueUrl)
     .type('json')
     .send(param)
     .auth({
-      user: 'caoliding',
-      pass: 'caoliding'
+      user: user,
+      pass: pass
     })
     .end(showCreateResult);
 }

@@ -26,10 +26,8 @@ function readConfigItem(itemName, lineArr) {
 
 // 显示配置
 function listConfigItem() {
-  console.log('do listConfigItem');
   var configText = readConfigFile();
-  console.log('configText:', configText);
-  if (configText && false) {
+  if (configText) {
     configText.split(/\r?\n/).forEach(function (line) {
       console.log(line);
     })
@@ -72,7 +70,7 @@ function writeItem(k, v) {
     if (!find) {
       arr.push(configText);
     }
-    fs.writeFileSync(config_file_path, arr.join('\r'));
+    fs.writeFileSync(config_file_path, arr.join('\n'));
   }
 }
 

@@ -4,7 +4,6 @@ var config = require('../config/config.js');
 function configFun(yargs) {
   var argv = yargs.argv;
   if (argv.list) {
-    console.log('do config --list');
     config.list();
     return;
   }
