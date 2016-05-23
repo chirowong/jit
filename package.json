@@ -1,5 +1,8 @@
 {
   "name": "jit",
+  "version": "0.0.1",
+  "description": "jira & git",
+  "author": "bigsotne",
   "bin": {
     "jit": "jit.js"
   },
