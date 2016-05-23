@@ -26,7 +26,7 @@ function commit(yargs) {
     var issue = issueArr[issueNum - 1];
     var issueKey = issue.key;
     var commantStr = 'git commit -m "' + issueKey + ' #comment ' + commitMessage + '"';
-    console.log(commantStr);
+    //console.log(commantStr);
     shell.exec(commantStr);
   }
 }
