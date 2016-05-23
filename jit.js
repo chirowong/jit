@@ -10,3 +10,8 @@ var argv = require('yargs')
   .command('lucky', "i'm feeling lucky", command.lucky)
   .boolean(['list'])
   .argv;
+
+// 没有子命令
+if (argv._.length == 0) {
+  command.main();
+}
